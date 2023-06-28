@@ -1,5 +1,6 @@
 package org.example.demo.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.demo.entity.Employee;
 import org.example.demo.repository.EmployeeRepository;
 import org.example.demo.service.EmployeeService;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
+@Slf4j
 public class demoController {
 
     @Autowired
@@ -21,6 +23,11 @@ public class demoController {
     @GetMapping("getall")
     public List<Employee> getAllEmployees(){
         return employeeService.getallEmp();
+    }
+
+    @GetMapping("alldept/{dept}")
+    public List<Employee> getAllDept(@PathVariable String dept){
+        return employeeService.findAllDept(dept);
     }
 
     @GetMapping("gethighsalary")
@@ -32,5 +39,13 @@ public class demoController {
     public Employee getnthSalary(@PathVariable Integer n){
         return employeeService.getHighestSalary(n);
     }
+
+    @GetMapping("getcountry/{country}")
+    public List<Employee> getCountryWiseEmp(@PathVariable String country){
+        log.info("getting all the empl for the country {}" ,country);
+        return employeeService.getCountryWiseEmp(country);
+    }
+
+
 
 }

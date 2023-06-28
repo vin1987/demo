@@ -16,6 +16,8 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+
+
     @Cacheable("employees")
     public List<Employee> getallEmp(){
 
@@ -24,7 +26,6 @@ public class EmployeeService {
         return result;
 
     }
-
 
     public Employee getHighestSalary(){
         List<Employee> employees = getallEmp();
@@ -38,5 +39,16 @@ public class EmployeeService {
         Employee employee = employees.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).collect(Collectors.toList()).get(n);
         return employee;
 
+    }
+
+    public List<Employee> getCountryWiseEmp(String country){
+        List<Employee> employees = getallEmp();
+        List<Employee> countryWiseEmp = employees.stream().filter(e -> e.getCountry().toLowerCase().equals(country)).collect(Collectors.toList());
+        return countryWiseEmp;
+
+    }
+
+    public List<Employee> findAllDept(String dept) {
+        return employeeRepository.findByDept(dept).stream().toList();
     }
 }
