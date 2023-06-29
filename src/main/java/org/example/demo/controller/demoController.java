@@ -6,6 +6,7 @@ import org.example.demo.model.EmployeeServiceResponse;
 import org.example.demo.repository.EmployeeRepository;
 import org.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class demoController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("getall")
+    @GetMapping("admin/getall")
     public EmployeeServiceResponse getAllEmployees(){
         EmployeeServiceResponse response = new EmployeeServiceResponse();
         List<Employee> employees=  employeeService.getallEmp();
@@ -30,7 +31,7 @@ public class demoController {
         return response;
     }
 
-    @GetMapping("alldept/{dept}/{gender}")
+    @GetMapping("admin/alldept/{dept}/{gender}")
     public EmployeeServiceResponse getAllDept(@PathVariable String dept, @PathVariable String gender){
         EmployeeServiceResponse response = new EmployeeServiceResponse();
         List<Employee> employees=  employeeService.findAllDept(dept,gender);
