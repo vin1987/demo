@@ -11,4 +11,7 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
     Collection<Employee> findByDept(String dept);
+//    Collection<Employee> findByDeptCountry(String dept,String country);
+//    Collection<Employee> findByDeptCountryGender(String dept,String country,String gender);
+
 }

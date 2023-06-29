@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,7 +49,13 @@ public class EmployeeService {
 
     }
 
-    public List<Employee> findAllDept(String dept) {
-        return employeeRepository.findByDept(dept).stream().toList();
+    public List<Employee> findAllDept(String dept, String gender) {
+
+        List<Employee> byDept =(List<Employee> )employeeRepository.findByDept(dept);
+
+       if(!byDept.isEmpty() && null != gender){
+           return byDept.stream().filter(e ->e.getGender().toLowerCase().equals(gender)).collect(Collectors.toList());
+        } else
+            return byDept;
     }
 }

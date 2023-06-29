@@ -2,6 +2,7 @@ package org.example.demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo.entity.Employee;
+import org.example.demo.model.EmployeeServiceResponse;
 import org.example.demo.repository.EmployeeRepository;
 import org.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,22 @@ public class demoController {
     private EmployeeService employeeService;
 
     @GetMapping("getall")
-    public List<Employee> getAllEmployees(){
-        return employeeService.getallEmp();
+    public EmployeeServiceResponse getAllEmployees(){
+        EmployeeServiceResponse response = new EmployeeServiceResponse();
+        List<Employee> employees=  employeeService.getallEmp();
+        response.setData(employees);
+        response.setCount(employees.size());
+        return response;
     }
 
-    @GetMapping("alldept/{dept}")
-    public List<Employee> getAllDept(@PathVariable String dept){
-        return employeeService.findAllDept(dept);
+    @GetMapping("alldept/{dept}/{gender}")
+    public EmployeeServiceResponse getAllDept(@PathVariable String dept, @PathVariable String gender){
+        EmployeeServiceResponse response = new EmployeeServiceResponse();
+        List<Employee> employees=  employeeService.findAllDept(dept,gender);
+
+        response.setData(employees);
+        response.setCount(employees.size());
+        return response;
     }
 
     @GetMapping("gethighsalary")
@@ -41,9 +51,13 @@ public class demoController {
     }
 
     @GetMapping("getcountry/{country}")
-    public List<Employee> getCountryWiseEmp(@PathVariable String country){
+    public EmployeeServiceResponse getCountryWiseEmp(@PathVariable String country){
+        EmployeeServiceResponse response = new EmployeeServiceResponse();
         log.info("getting all the empl for the country {}" ,country);
-        return employeeService.getCountryWiseEmp(country);
+        List<Employee> employees=  employeeService.getCountryWiseEmp(country);
+        response.setData(employees);
+        response.setCount(employees.size());
+        return response;
     }
 
 
